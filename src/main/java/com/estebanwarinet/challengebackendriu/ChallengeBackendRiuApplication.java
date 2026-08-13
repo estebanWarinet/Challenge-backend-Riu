@@ -1,13 +1,13 @@
-package com.estebanwarinet.hotelsearch;
+package com.estebanwarinet.challengebackendriu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HotelAvailabilitySearchApplication {
+public class ChallengeBackendRiuApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HotelAvailabilitySearchApplication.class, args);
+		SpringApplication.run(ChallengeBackendRiuApplication.class, args);
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.estebanwarinet.Challenge_backend_Riu;
+package com.estebanwarinet.challengebackendriu;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

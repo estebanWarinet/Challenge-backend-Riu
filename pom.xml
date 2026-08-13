@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.estebanwarinet</groupId>
-	<artifactId>Challenge-backend-Riu</artifactId>
+	<artifactId>challengebackendriu</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
