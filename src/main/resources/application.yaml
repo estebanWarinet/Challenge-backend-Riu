@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: hotel-availability-
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hotel_search
+    username: hotel
+    password: hotel123
+    jpa:
+      hibernate:
+        ddl-auto: update
+    kafka:
+      bootstrap-servers: localhost:9092
