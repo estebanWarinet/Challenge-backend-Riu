@@ -9,8 +9,11 @@ import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 import java.util.List;
 
-public record SearchRequestDto(@NotBlank String hotelId, @NotNull @JsonFormat(pattern = "dd/MM/yyyy") LocalDate checkIn,
-                               @NotNull @JsonFormat(pattern = "dd/MM/yyyy") LocalDate checkOut,
-                               @NotEmpty List<@PositiveOrZero @NotNull Integer> ages) {
+public record SearchPayloadDto(
+        @NotBlank String hotelId,
+        @NotNull @JsonFormat(pattern = "dd/MM/yyyy") LocalDate checkIn,
+        @NotNull @JsonFormat(pattern = "dd/MM/yyyy") LocalDate checkOut,
+        @NotEmpty List<@PositiveOrZero @NotNull Integer> ages
+) {
 }
 
