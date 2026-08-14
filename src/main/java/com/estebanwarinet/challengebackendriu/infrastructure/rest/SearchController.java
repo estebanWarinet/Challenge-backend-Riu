@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/search")
+@RequestMapping()
 public class SearchController {
 
     private final CreateSearchUseCase createSearchUseCase;
@@ -21,7 +21,7 @@ public class SearchController {
         this.createSearchUseCase = createSearchUseCase;
     }
 
-    @PostMapping()
+    @PostMapping("/search")
     public ResponseEntity<SearchId> createSearch(@Valid @RequestBody SearchRequestDto searchDto) {
 
         Search search = new Search(searchDto.hotelId(), searchDto.checkIn(), searchDto.checkOut(), searchDto.ages());

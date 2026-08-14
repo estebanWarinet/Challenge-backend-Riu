@@ -2,12 +2,14 @@ package com.estebanwarinet.challengebackendriu.domain.model;
 
 import com.estebanwarinet.challengebackendriu.domain.exception.InvalidAgeException;
 import com.estebanwarinet.challengebackendriu.domain.exception.InvalidDateRangeException;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-public record Search(String hotelId, LocalDate checkIn, LocalDate checkOut, List<Integer> ages) {
+public record Search(String hotelId, @JsonFormat(pattern = "yyyy-MM-dd") LocalDate checkIn,
+                     @JsonFormat(pattern = "yyyy-MM-dd") LocalDate checkOut, List<Integer> ages) {
     public Search {
         Objects.requireNonNull(hotelId, "hotelId es obligatorio");
         Objects.requireNonNull(checkIn, "checkIn es obligatorio");
