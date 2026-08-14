@@ -142,9 +142,6 @@ Para ejecutar los test hay que ejecutar
 ./mvnw test
 ```
 
-Aclaración: Esto se tiene que ejecutar por fuera del docker ya que usan
-Testcontainers que necesitan de un docker socket que no esta disponible dentro del build de Docker
-
 ## Decisiones de diseño
 
 - Arquitectura Hexagonal estricta sin utilizar notaciones del framework de spring dentro del dominio, 

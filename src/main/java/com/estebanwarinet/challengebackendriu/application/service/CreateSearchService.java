@@ -15,7 +15,7 @@ public class CreateSearchService implements CreateSearchUseCase {
     }
 
     @Override
-    public SearchId createSearch(Search search){
+    public SearchId createSearch(Search search) {
         SearchId id = SearchId.random();
         searchEventPublisher.publishSearchEvent(new SearchEvent(id, search));
         return id;
