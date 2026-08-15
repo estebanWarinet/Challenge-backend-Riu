@@ -1,8 +1,7 @@
-package com.estebanwarinet.challengebackendriu.infrastructure.kafka.producer;
+package com.estebanwarinet.challengebackendriu.infrastructure.kafka.consumer;
 
 import com.estebanwarinet.challengebackendriu.application.event.SearchEvent;
 import com.estebanwarinet.challengebackendriu.application.port.in.PersistSearchUseCase;
-import com.estebanwarinet.challengebackendriu.infrastructure.kafka.consumer.KafkaSearchConsumer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

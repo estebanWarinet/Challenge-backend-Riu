@@ -1,9 +1,8 @@
-package com.estebanwarinet.challengebackendriu.infrastructure.kafka.consumer;
+package com.estebanwarinet.challengebackendriu.infrastructure.kafka.producer;
 
 import com.estebanwarinet.challengebackendriu.application.event.SearchEvent;
 import com.estebanwarinet.challengebackendriu.domain.model.Search;
 import com.estebanwarinet.challengebackendriu.domain.model.SearchId;
-import com.estebanwarinet.challengebackendriu.infrastructure.kafka.producer.KafkaSearchEventPublisher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
