@@ -149,7 +149,7 @@ utilizando un archivo de config para la inicialización de los beans.
 - Validaciones de forma directamente dentro de los DTO, dejando reglas o validaciones de negocio en el dominio 
 (en el constructor de Search), como ser que el checkIn tiene que ser antes que el checkout.
 - Para todas las validaciones retornar 400 para validaciones, 
-retornar 404 para recurso inexistente como ser cuando no existe un searchId en al base de datos.
+retornar 404 para recurso inexistente como ser cuando no existe un searchId en la base de datos.
 - Virtual threads para el guardado (I/O-bound), basando en la documentación de spring esto se implementa con agregar
 spring.threads.virtual.enabled en el application file, de esta forma Spring Boot ejecuta automáticamente los 
 listeners de Kafka sobre virtual threads
