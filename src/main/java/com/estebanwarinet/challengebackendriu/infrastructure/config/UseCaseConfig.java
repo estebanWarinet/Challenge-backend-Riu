@@ -11,12 +11,19 @@ import com.estebanwarinet.challengebackendriu.application.service.PersistSearchS
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.Clock;
+
 @Configuration
 public class UseCaseConfig {
 
     @Bean
-    public CreateSearchUseCase createSearchUseCase(SearchEventPublisher searchEventPublisher) {
-        return new CreateSearchService(searchEventPublisher);
+    public Clock clock() {
+        return Clock.systemDefaultZone();
+    }
+
+    @Bean
+    public CreateSearchUseCase createSearchUseCase(SearchEventPublisher searchEventPublisher, Clock clock) {
+        return new CreateSearchService(searchEventPublisher, clock);
     }
 
     @Bean

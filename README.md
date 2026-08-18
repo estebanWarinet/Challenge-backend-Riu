@@ -132,6 +132,7 @@ Response
 | JSON mal formado | 400 | `Body JSON inválido o fecha con formato incorrecto (dd/MM/yyyy)` |
 | `searchId` inexistente en `GET /count` | 404 | `Búsqueda no encontrada: <searchId>` |
 | Falta el parámetro `searchId` en `GET /count` | 400 | (error estándar de Spring: *Required parameter 'searchId' is not present*) |
+| checkIn en el pasado | 400 | La fecha checkIn debe ser una fecha actual o futura |
 
 
 ## Test
