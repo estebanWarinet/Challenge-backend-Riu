@@ -58,7 +58,7 @@ class SearchControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(requestBody)
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.searchId").value("uuid-1"));
 

@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class SearchController {
     @Operation(summary = "Registrar una búsqueda",
             description = "Valida el payload, lo publica al topic de Kafka y devuelve el searchId generado.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Búsqueda registrada"),
+            @ApiResponse(responseCode = "201", description = "Búsqueda registrada"),
             @ApiResponse(responseCode = "400", description = "Payload inválido",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
@@ -48,7 +49,7 @@ public class SearchController {
                 searchDto.hotelId(), searchDto.checkIn(), searchDto.checkOut(), searchDto.ages());
 
         SearchId searchId = createSearchUseCase.createSearch(search);
-        return ResponseEntity.ok(new SearchIdResponseDto(searchId.searchId()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SearchIdResponseDto(searchId.searchId()));
     }
 
     @Operation(summary = "Contar búsquedas idénticas",
