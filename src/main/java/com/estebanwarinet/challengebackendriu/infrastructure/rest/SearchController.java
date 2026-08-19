@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -37,11 +36,9 @@ public class SearchController {
 
     @Operation(summary = "Registrar una búsqueda",
             description = "Valida el payload, lo publica al topic de Kafka y devuelve el searchId generado.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Búsqueda registrada"),
-            @ApiResponse(responseCode = "400", description = "Payload inválido",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
+    @ApiResponse(responseCode = "201", description = "Búsqueda registrada")
+    @ApiResponse(responseCode = "400", description = "Payload inválido",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping("/search")
     public ResponseEntity<SearchIdResponseDto> createSearch(@Valid @RequestBody SearchPayloadDto searchDto) {
 
@@ -54,12 +51,10 @@ public class SearchController {
 
     @Operation(summary = "Contar búsquedas idénticas",
             description = "Devuelve la búsqueda original y cuántas búsquedas idénticas se registraron.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Búsqueda encontrada con su contador"),
-            @ApiResponse(responseCode = "400", description = "Falta el parámetro searchId"),
-            @ApiResponse(responseCode = "404", description = "searchId inexistente",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
+    @ApiResponse(responseCode = "200", description = "Búsqueda encontrada con su contador")
+    @ApiResponse(responseCode = "400", description = "Falta el parámetro searchId")
+    @ApiResponse(responseCode = "404", description = "searchId inexistente",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @GetMapping("/count")
     public ResponseEntity<CountResponseDto> countSearch(@RequestParam String searchId) {
         SearchCountResult result = getSearchCountUseCase.countSearch(new SearchId(searchId));

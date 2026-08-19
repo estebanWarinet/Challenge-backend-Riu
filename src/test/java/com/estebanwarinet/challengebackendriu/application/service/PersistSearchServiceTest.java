@@ -16,7 +16,7 @@ import java.util.List;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class PersistSearchServiceTest {
+class PersistSearchServiceTest {
 
     @Mock
     private SearchRepository searchRepository;

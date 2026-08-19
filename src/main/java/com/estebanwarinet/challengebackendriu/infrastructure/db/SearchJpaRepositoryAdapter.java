@@ -67,6 +67,6 @@ public class SearchJpaRepositoryAdapter implements SearchRepository {
     private List<Integer> parseAges(String agesCsv) {
         return Arrays.stream(agesCsv.split(","))
                 .map(Integer::parseInt)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

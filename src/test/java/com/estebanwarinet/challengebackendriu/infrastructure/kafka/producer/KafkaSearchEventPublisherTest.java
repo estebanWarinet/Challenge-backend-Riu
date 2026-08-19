@@ -14,7 +14,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,7 +39,6 @@ class KafkaSearchEventPublisherTest {
 
         publisher.publishSearchEvent(event);
 
-        verify(kafkaTemplate).send(
-                eq("hotel_availability_searches"), eq("uuid-1"), eq(SearchEventDto.from(event)));
+        verify(kafkaTemplate).send("hotel_availability_searches", "uuid-1", SearchEventDto.from(event));
     }
 }
