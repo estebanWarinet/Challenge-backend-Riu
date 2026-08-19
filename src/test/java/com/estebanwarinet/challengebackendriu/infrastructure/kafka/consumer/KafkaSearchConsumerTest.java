@@ -30,9 +30,14 @@ class KafkaSearchConsumerTest {
     @Test
     void shouldParseJsonAndPersistEvent() throws Exception {
         String json = """
-                {"searchId":{"searchId":"uuid-1"},
-                 "search":{"hotelId":"hotel-123","checkIn":"2026-08-20","checkOut":"2026-08-25","ages":[30,5]}}
-                """;
+        {
+            "searchId":"uuid-1",
+            "hotelId":"hotel-123",
+            "checkIn":"2026-08-20",
+            "checkOut":"2026-08-25",
+            "ages":[30,5]
+        }
+        """;
 
         consumer.handleSearchEvent(json);
 

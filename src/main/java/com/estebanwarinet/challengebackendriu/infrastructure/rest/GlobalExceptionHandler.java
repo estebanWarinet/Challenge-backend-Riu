@@ -2,6 +2,7 @@ package com.estebanwarinet.challengebackendriu.infrastructure.rest;
 
 import com.estebanwarinet.challengebackendriu.domain.exception.InvalidAgeException;
 import com.estebanwarinet.challengebackendriu.domain.exception.InvalidDateRangeException;
+import com.estebanwarinet.challengebackendriu.domain.exception.PastSearchDateException;
 import com.estebanwarinet.challengebackendriu.domain.exception.SearchNotFoundException;
 import com.estebanwarinet.challengebackendriu.infrastructure.rest.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -43,5 +44,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SearchNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(SearchNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ex.getMessage()));
+    }
+
+    @ExceptionHandler(PastSearchDateException.class)
+    public ResponseEntity<ErrorResponse> handlePastDate(PastSearchDateException ex) {
+        return ResponseEntity.badRequest().body(new ErrorResponse(ex.getMessage()));
     }
 }

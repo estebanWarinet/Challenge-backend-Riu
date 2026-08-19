@@ -1,4 +1,4 @@
-package com.estebanwarinet.challengebackendriu.application.port.out;
+package com.estebanwarinet.challengebackendriu.domain.repository;
 
 import com.estebanwarinet.challengebackendriu.domain.model.Search;
 import com.estebanwarinet.challengebackendriu.domain.model.SearchId;

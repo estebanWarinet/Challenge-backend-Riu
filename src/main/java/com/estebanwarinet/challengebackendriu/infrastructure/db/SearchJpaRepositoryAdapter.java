@@ -1,6 +1,6 @@
 package com.estebanwarinet.challengebackendriu.infrastructure.db;
 
-import com.estebanwarinet.challengebackendriu.application.port.out.SearchRepository;
+import com.estebanwarinet.challengebackendriu.domain.repository.SearchRepository;
 import com.estebanwarinet.challengebackendriu.domain.model.Search;
 import com.estebanwarinet.challengebackendriu.domain.model.SearchId;
 import org.springframework.stereotype.Repository;
@@ -67,6 +67,6 @@ public class SearchJpaRepositoryAdapter implements SearchRepository {
     private List<Integer> parseAges(String agesCsv) {
         return Arrays.stream(agesCsv.split(","))
                 .map(Integer::parseInt)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

@@ -4,10 +4,14 @@ package com.estebanwarinet.challengebackendriu.infrastructure.rest;
 import com.estebanwarinet.challengebackendriu.application.dto.SearchCountResult;
 import com.estebanwarinet.challengebackendriu.application.port.in.CreateSearchUseCase;
 import com.estebanwarinet.challengebackendriu.application.port.in.GetSearchCountUseCase;
+import com.estebanwarinet.challengebackendriu.domain.exception.PastSearchDateException;
 import com.estebanwarinet.challengebackendriu.domain.exception.SearchNotFoundException;
 import com.estebanwarinet.challengebackendriu.domain.model.Search;
 import com.estebanwarinet.challengebackendriu.domain.model.SearchId;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -15,7 +19,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -27,6 +33,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(SearchController.class)
 class SearchControllerTest {
 
+    private final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private final String VALID_CHECK_IN = LocalDate.now().plusDays(2).format(FORMAT);
+    private final String VALID_CHECK_OUT = LocalDate.now().plusDays(20).format(FORMAT);
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -35,35 +45,6 @@ class SearchControllerTest {
 
     @MockitoBean
     private GetSearchCountUseCase getSearchCountUseCase;
-
-    @Test
-    void shouldCreateSearch() throws Exception {
-
-        SearchId searchId = new SearchId("uuid-1");
-
-        when(createSearchUseCase.createSearch(any(Search.class)))
-                .thenReturn(searchId);
-
-        String requestBody = """
-                {
-                    "hotelId": "hotel-123",
-                    "checkIn": "20/08/2026",
-                    "checkOut": "25/08/2026",
-                    "ages": [30, 5]
-                }
-                """;
-
-        mockMvc.perform(
-                        post("/search")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(requestBody)
-                )
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.searchId").value("uuid-1"));
-
-        verify(createSearchUseCase).createSearch(any(Search.class));
-    }
 
     @Test
     void shouldCountSearch() throws Exception {
@@ -104,92 +85,65 @@ class SearchControllerTest {
     }
 
     @Test
-    void shouldReturn400WhenHotelIdIsMissing() throws Exception {
-        String body = """
+    void shouldCreateSearch() throws Exception {
+
+        SearchId searchId = new SearchId("uuid-1");
+
+        when(createSearchUseCase.createSearch(any(Search.class)))
+                .thenReturn(searchId);
+
+        String template = """
                 {
-                    "checkIn": "20/08/2026",
-                    "checkOut": "25/08/2026",
+                    "hotelId": "hotel-123",
+                    "checkIn": "%s",
+                    "checkOut": "%s",
                     "ages": [30, 5]
                 }
                 """;
+        String requestBody = String.format(template, VALID_CHECK_IN, VALID_CHECK_OUT);
 
+        mockMvc.perform(
+                        post("/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestBody)
+                )
+                .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.searchId").value("uuid-1"));
+
+        verify(createSearchUseCase).createSearch(any(Search.class));
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("invalidPayloads")
+    void shouldReturn400ForInvalidPayloads(String caseName, String body) throws Exception {
         mockMvc.perform(post("/search").contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message").exists());
     }
 
-    @Test
-    void shouldReturn400WhenAgesIsMissing() throws Exception {
-        String body = """
-                {
-                    "hotelId": "hotel-123",
-                    "checkIn": "20/08/2026",
-                    "checkOut": "25/08/2026",
-                    "ages": []
-                }
-                """;
+    static Stream<Arguments> invalidPayloads() {
+        DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String validCheckIn = LocalDate.now().plusDays(2).format(FORMAT);
+        String validCheckOut = LocalDate.now().plusDays(20).format(FORMAT);
 
-        mockMvc.perform(post("/search").contentType(MediaType.APPLICATION_JSON).content(body))
-                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message").exists());
-    }
-
-    @Test
-    void shouldReturn400WhenAgesIsNegative() throws Exception {
-        String body = """
-                {
-                    "hotelId": "hotel-123",
-                    "checkIn": "20/08/2026",
-                    "checkOut": "25/08/2026",
-                    "ages": [30, -5]
-                }
-                """;
-
-        mockMvc.perform(post("/search").contentType(MediaType.APPLICATION_JSON).content(body))
-                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message").exists());
-    }
-
-    @Test
-    void shouldReturn400WhenCheckInIsAfterCheckOut() throws Exception {
-        String body = """
-                {
-                    "hotelId": "hotel-123",
-                    "checkIn": "30/08/2026",
-                    "checkOut": "25/08/2026",
-                    "ages": [30, 5]
-                }
-                """;
-
-        mockMvc.perform(post("/search").contentType(MediaType.APPLICATION_JSON).content(body))
-                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message").exists());
-    }
-
-    @Test
-    void shouldReturn400WhenNotValidJsonFormat() throws Exception {
-        String body = """
-                {
-                    "{ hotelId": "hotel-123",
-                    "checkIn": "20/08/2026",
-                    "checkOut": "25/08/2026",
-                    "ages": [30, 5]
-                }
-                """;
-
-        mockMvc.perform(post("/search").contentType(MediaType.APPLICATION_JSON).content(body))
-                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message").exists());
-    }
-
-    @Test
-    void shouldReturn400WhenDateNotHaveValidFormat() throws Exception {
-        String body = """
-                {
-                    "hotelId": "hotel-123",
-                    "checkIn": "20-08-2026",
-                    "checkOut": "25/08/2026",
-                    "ages": [30, 5]
-                }
-                """;
-
-        mockMvc.perform(post("/search").contentType(MediaType.APPLICATION_JSON).content(body))
-                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message").exists());
+        return Stream.of(
+                Arguments.of("hotelId faltante", """
+                        {"checkIn":"%s","checkOut":"%s","ages":[30,5]}"""
+                        .formatted(validCheckIn, validCheckOut)),
+                Arguments.of("ages vacía", """
+                        {"hotelId":"hotel-123","checkIn":"%s","checkOut":"%s","ages":[]}"""
+                        .formatted(validCheckIn, validCheckOut)),
+                Arguments.of("edad negativa", """
+                        {"hotelId":"hotel-123","checkIn":"%s","checkOut":"%s","ages":[30,-5]}"""
+                        .formatted(validCheckIn, validCheckOut)),
+                Arguments.of("checkIn posterior a checkOut", """
+                        {"hotelId":"hotel-123","checkIn":"30/08/2026","checkOut":"25/08/2026","ages":[30,5]}"""),
+                Arguments.of("JSON mal formado", """
+                        {"{ hotelId":"hotel-123","checkIn":"%s","checkOut":"%s","ages":[30,5]}"""
+                        .formatted(validCheckIn, validCheckOut)),
+                Arguments.of("formato de fecha inválido", """
+                        {"hotelId":"hotel-123","checkIn":"20-08-2026","checkOut":"25/08/2026","ages":[30,5]}""")
+        );
     }
 
     @Test
@@ -199,6 +153,26 @@ class SearchControllerTest {
 
         mockMvc.perform(get("/count").param("searchId", "no-existe"))
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").exists());
+    }
+
+    @Test
+    void shouldReturn400WhenCheckInIsPastDate() throws Exception {
+        String requestBody = """
+                {
+                    "hotelId": "hotel-123",
+                    "checkIn": "10/08/2026",
+                    "checkOut": "25/08/2026",
+                    "ages": [30, 5]
+                }
+                """;
+
+        when(createSearchUseCase.createSearch(any(Search.class)))
+                .thenThrow(new PastSearchDateException("La fecha checkIn debe ser una fecha actual o futura"));
+
+
+        mockMvc.perform(post("/search").contentType(MediaType.APPLICATION_JSON).content(requestBody))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").exists());
     }
 }

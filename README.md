@@ -9,12 +9,12 @@ en tres paquetes con las dependencias apuntando siempre hacia el dominio:
 
 ```
 src/main/java/com/estebanwarinet/challengebackendriu/
-├── domain/            # Search, SearchId, excepciones
+├── domain/            # Search, SearchId, SearchRepository, excepciones
 ├── application/       # use cases + ports (in/out)
 └── infrastructure/    # adapters: rest, kafka (producer/consumer), db
 ```
 
-- domain: el núcleo del negocio. Contiene los objetos propios del negocio (`Search`, `SearchId`)
+- domain: el núcleo del negocio. Contiene los objetos propios del negocio (`Search`, `SearchId`) y el SearchRepository
 y las excepciones de dominio. Valida reglas de negocio (checkIn anterior a checkOut, edades no negativas) 
 en el constructor, por lo que un objeto inválido no puede existir.
 - application: los casos de uso (`CreateSearch`, `PersistSearch`, `GetSearchCount`) y los puertos que definen
@@ -86,6 +86,8 @@ Body
 ```
 
 Response
+
+HTTP Code: 201
 ```json
 {
     "searchId": "1deda0aa-7709-479c-ad97-d0f23cbe85a0"
@@ -100,6 +102,8 @@ GET /count
 RequestParam: searchId={searchId}
 
 Response
+
+HTTP Code: 200
 ```json
 {
     "searchId": "1deda0aa-7709-479c-ad97-d0f23cbe85a0",
@@ -132,6 +136,7 @@ Response
 | JSON mal formado | 400 | `Body JSON inválido o fecha con formato incorrecto (dd/MM/yyyy)` |
 | `searchId` inexistente en `GET /count` | 404 | `Búsqueda no encontrada: <searchId>` |
 | Falta el parámetro `searchId` en `GET /count` | 400 | (error estándar de Spring: *Required parameter 'searchId' is not present*) |
+| checkIn en el pasado | 400 | La fecha checkIn debe ser una fecha actual o futura |
 
 
 ## Test
@@ -156,3 +161,5 @@ listeners de Kafka sobre virtual threads
 - Utilizar una columna String llamada signature (hotelId|fechas|ages-en-orden) para poder calcular el count 
 de búsquedas idénticas de esta forma se preserva el orden de las edades y queda simplificada la query sin tener 
 que armar un conjunto de 'ands' o concatenar varios valores por consulta
+- Validacion de fechas pasadas en CheckIn se considera como regla de negocio, por eso se utiliza Clock inyectado
+- Para mejorar la performance se generan 6 particiones + concurrency 6 para paralelizar el consumo

@@ -1,7 +1,7 @@
 package com.estebanwarinet.challengebackendriu.application.service;
 
 import com.estebanwarinet.challengebackendriu.application.dto.SearchCountResult;
-import com.estebanwarinet.challengebackendriu.application.port.out.SearchRepository;
+import com.estebanwarinet.challengebackendriu.domain.repository.SearchRepository;
 import com.estebanwarinet.challengebackendriu.domain.exception.SearchNotFoundException;
 import com.estebanwarinet.challengebackendriu.domain.model.Search;
 import com.estebanwarinet.challengebackendriu.domain.model.SearchId;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class GetSearchCountServiceTest {
+class GetSearchCountServiceTest {
 
     @Mock
     private SearchRepository searchRepository;

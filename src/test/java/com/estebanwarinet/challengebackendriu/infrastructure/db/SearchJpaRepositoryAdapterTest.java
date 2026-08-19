@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Import(SearchJpaRepositoryAdapter.class)
-public class SearchJpaRepositoryAdapterTest {
+class SearchJpaRepositoryAdapterTest {
 
     @Autowired
     private SearchJpaRepositoryAdapter adapter;
