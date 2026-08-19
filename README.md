@@ -86,6 +86,8 @@ Body
 ```
 
 Response
+
+HTTP Code: 201
 ```json
 {
     "searchId": "1deda0aa-7709-479c-ad97-d0f23cbe85a0"
@@ -100,6 +102,8 @@ GET /count
 RequestParam: searchId={searchId}
 
 Response
+
+HTTP Code: 200
 ```json
 {
     "searchId": "1deda0aa-7709-479c-ad97-d0f23cbe85a0",
@@ -157,3 +161,5 @@ listeners de Kafka sobre virtual threads
 - Utilizar una columna String llamada signature (hotelId|fechas|ages-en-orden) para poder calcular el count 
 de búsquedas idénticas de esta forma se preserva el orden de las edades y queda simplificada la query sin tener 
 que armar un conjunto de 'ands' o concatenar varios valores por consulta
+- Validacion de fechas pasadas en CheckIn se considera como regla de negocio, por eso se utiliza Clock inyectado
+- Para mejorar la performance se generan 6 particiones + concurrency 6 para paralelizar el consumo
