@@ -2,7 +2,7 @@ package com.estebanwarinet.challengebackendriu.application.service;
 
 import com.estebanwarinet.challengebackendriu.application.event.SearchEvent;
 import com.estebanwarinet.challengebackendriu.application.port.in.PersistSearchUseCase;
-import com.estebanwarinet.challengebackendriu.application.port.out.SearchRepository;
+import com.estebanwarinet.challengebackendriu.domain.repository.SearchRepository;
 
 public class PersistSearchService implements PersistSearchUseCase {
 

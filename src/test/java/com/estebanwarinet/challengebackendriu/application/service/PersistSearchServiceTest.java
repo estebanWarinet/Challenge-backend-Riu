@@ -1,7 +1,7 @@
 package com.estebanwarinet.challengebackendriu.application.service;
 
 import com.estebanwarinet.challengebackendriu.application.event.SearchEvent;
-import com.estebanwarinet.challengebackendriu.application.port.out.SearchRepository;
+import com.estebanwarinet.challengebackendriu.domain.repository.SearchRepository;
 import com.estebanwarinet.challengebackendriu.domain.model.Search;
 import com.estebanwarinet.challengebackendriu.domain.model.SearchId;
 import org.junit.jupiter.api.Test;

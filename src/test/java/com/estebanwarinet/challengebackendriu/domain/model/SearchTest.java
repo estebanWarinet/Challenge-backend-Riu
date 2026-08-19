@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SearchTest {
 
@@ -20,10 +19,12 @@ class SearchTest {
 
         Search search = new Search("hotel-123", checkIn, checkOut, ages);
 
-        assertEquals("hotel-123", search.hotelId());
-        assertEquals(checkIn, search.checkIn());
-        assertEquals(checkOut, search.checkOut());
-        assertEquals(ages, search.ages());
+        assertAll(
+                () -> assertEquals("hotel-123", search.hotelId()),
+                () -> assertEquals(checkIn, search.checkIn()),
+                () -> assertEquals(checkOut, search.checkOut()),
+                () -> assertEquals(ages, search.ages())
+        );
     }
 
     @Test

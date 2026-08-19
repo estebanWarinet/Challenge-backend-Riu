@@ -2,7 +2,7 @@ package com.estebanwarinet.challengebackendriu.application.service;
 
 import com.estebanwarinet.challengebackendriu.application.dto.SearchCountResult;
 import com.estebanwarinet.challengebackendriu.application.port.in.GetSearchCountUseCase;
-import com.estebanwarinet.challengebackendriu.application.port.out.SearchRepository;
+import com.estebanwarinet.challengebackendriu.domain.repository.SearchRepository;
 import com.estebanwarinet.challengebackendriu.domain.exception.SearchNotFoundException;
 import com.estebanwarinet.challengebackendriu.domain.model.Search;
 import com.estebanwarinet.challengebackendriu.domain.model.SearchId;

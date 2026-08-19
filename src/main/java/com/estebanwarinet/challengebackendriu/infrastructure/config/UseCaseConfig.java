@@ -4,7 +4,7 @@ import com.estebanwarinet.challengebackendriu.application.port.in.CreateSearchUs
 import com.estebanwarinet.challengebackendriu.application.port.in.GetSearchCountUseCase;
 import com.estebanwarinet.challengebackendriu.application.port.in.PersistSearchUseCase;
 import com.estebanwarinet.challengebackendriu.application.port.out.SearchEventPublisher;
-import com.estebanwarinet.challengebackendriu.application.port.out.SearchRepository;
+import com.estebanwarinet.challengebackendriu.domain.repository.SearchRepository;
 import com.estebanwarinet.challengebackendriu.application.service.CreateSearchService;
 import com.estebanwarinet.challengebackendriu.application.service.GetSearchCountService;
 import com.estebanwarinet.challengebackendriu.application.service.PersistSearchService;
