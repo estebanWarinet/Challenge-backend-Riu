@@ -3,6 +3,7 @@ package com.estebanwarinet.challengebackendriu.infrastructure.kafka.producer;
 import com.estebanwarinet.challengebackendriu.application.event.SearchEvent;
 import com.estebanwarinet.challengebackendriu.domain.model.Search;
 import com.estebanwarinet.challengebackendriu.domain.model.SearchId;
+import com.estebanwarinet.challengebackendriu.infrastructure.kafka.dto.SearchEventDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.verify;
 class KafkaSearchEventPublisherTest {
 
     @Mock
-    private KafkaTemplate<String, SearchEvent> kafkaTemplate;
+    private KafkaTemplate<String, SearchEventDto> kafkaTemplate;
 
     @InjectMocks
     private KafkaSearchEventPublisher publisher;
@@ -39,6 +40,7 @@ class KafkaSearchEventPublisherTest {
 
         publisher.publishSearchEvent(event);
 
-        verify(kafkaTemplate).send(eq("hotel_availability_searches"), eq("uuid-1"), eq(event));
+        verify(kafkaTemplate).send(
+                eq("hotel_availability_searches"), eq("uuid-1"), eq(SearchEventDto.from(event)));
     }
 }

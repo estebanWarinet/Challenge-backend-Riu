@@ -2,6 +2,7 @@ package com.estebanwarinet.challengebackendriu.infrastructure.kafka.consumer;
 
 import com.estebanwarinet.challengebackendriu.application.event.SearchEvent;
 import com.estebanwarinet.challengebackendriu.application.port.in.PersistSearchUseCase;
+import com.estebanwarinet.challengebackendriu.infrastructure.kafka.dto.SearchEventDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,9 +31,14 @@ class KafkaSearchConsumerTest {
     @Test
     void shouldParseJsonAndPersistEvent() throws Exception {
         String json = """
-                {"searchId":{"searchId":"uuid-1"},
-                 "search":{"hotelId":"hotel-123","checkIn":"2026-08-20","checkOut":"2026-08-25","ages":[30,5]}}
-                """;
+        {
+            "searchId":"uuid-1",
+            "hotelId":"hotel-123",
+            "checkIn":"2026-08-20",
+            "checkOut":"2026-08-25",
+            "ages":[30,5]
+        }
+        """;
 
         consumer.handleSearchEvent(json);
 
