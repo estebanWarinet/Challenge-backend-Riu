@@ -9,12 +9,12 @@ en tres paquetes con las dependencias apuntando siempre hacia el dominio:
 
 ```
 src/main/java/com/estebanwarinet/challengebackendriu/
-├── domain/            # Search, SearchId, excepciones
+├── domain/            # Search, SearchId, SearchRepository, excepciones
 ├── application/       # use cases + ports (in/out)
 └── infrastructure/    # adapters: rest, kafka (producer/consumer), db
 ```
 
-- domain: el núcleo del negocio. Contiene los objetos propios del negocio (`Search`, `SearchId`)
+- domain: el núcleo del negocio. Contiene los objetos propios del negocio (`Search`, `SearchId`) y el SearchRepository
 y las excepciones de dominio. Valida reglas de negocio (checkIn anterior a checkOut, edades no negativas) 
 en el constructor, por lo que un objeto inválido no puede existir.
 - application: los casos de uso (`CreateSearch`, `PersistSearch`, `GetSearchCount`) y los puertos que definen
